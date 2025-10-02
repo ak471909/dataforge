@@ -1,0 +1,77 @@
+# Production Configuration for Training Data Bot
+
+environment: production
+debug: false
+
+# Logging Configuration
+logging:
+  level: INFO
+  file: logs/production.log
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+  structured: true
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# File Processing Settings
+file_processing:
+  max_file_size_mb: 100
+  supported_types:
+    - pdf
+    - txt
+    - md
+    - html
+    - json
+    - csv
+    - docx
+  default_encoding: utf-8
+
+# Text Processing Configuration
+text_processing:
+  chunk_size: 1000
+  chunk_overlap: 200
+  min_chunk_size: 100
+  max_chunks_per_document: 1000
+
+# Performance Settings
+performance:
+  max_workers: 8
+  batch_size: 20
+  request_timeout: 60.0
+  retry_attempts: 3
+  retry_delay: 1.0
+  enable_parallel_processing: true
+
+# Quality Control
+quality:
+  threshold: 0.75
+  enable_filtering: true
+  min_quality_examples: 10
+
+# AI Provider Settings (use environment variables for keys)
+ai:
+  default_provider: openai
+  
+  openai:
+    model: gpt-3.5-turbo
+    max_tokens: 4000
+    temperature: 0.7
+    timeout: 60.0
+    retry_attempts: 3
+  
+  anthropic:
+    model: claude-3-sonnet-20240229
+    max_tokens: 4000
+    temperature: 0.7
+    timeout: 60.0
+
+# Storage Settings
+storage:
+  output_directory: output
+  temp_directory: temp
+  enable_compression: true
+  default_export_format: jsonl
+
+# Rate Limiting
+rate_limiting:
+  requests_per_minute: 60
+  requests_per_hour: 3600

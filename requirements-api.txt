@@ -1,0 +1,5 @@
+# API Server Dependencies
+fastapi>=0.100.0
+uvicorn[standard]>=0.23.0
+python-multipart>=0.0.6
+slowapi>=0.1.9

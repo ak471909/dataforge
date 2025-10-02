@@ -1,0 +1,49 @@
+services:
+  # API Server
+  api:
+    build: .
+    container_name: training_data_bot_api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    volumes:
+      - ./output:/app/output
+      - ./temp:/app/temp
+      - ./logs:/app/logs
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    networks:
+      - training_data_bot_network
+
+  # Production bot (for batch processing)
+  batch_processor:
+    build: .
+    container_name: training_data_bot_batch
+    command: ["script", "scripts/production_bot.py", "--input", "/data/input", "--output", "/data/output/batch_results.jsonl"]
+    env_file:
+      - .env
+    volumes:
+      - ./documents:/data/input
+      - ./output:/data/output
+      - ./logs:/app/logs
+    depends_on:
+      - api
+    networks:
+      - training_data_bot_network
+    profiles:
+      - batch
+
+networks:
+  training_data_bot_network:
+    driver: bridge
+
+volumes:
+  logs:
+  output:
+  temp:

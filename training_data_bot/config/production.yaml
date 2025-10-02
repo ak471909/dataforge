@@ -1,0 +1,58 @@
+# Production Configuration for Training Data Bot
+
+application:
+  name: "Training Data Bot"
+  version: "0.1.0"
+  environment: "production"
+  debug: false
+
+ai_provider:
+  default: "openai"
+  openai:
+    model: "gpt-3.5-turbo"
+    max_tokens: 4000
+    temperature: 0.7
+    timeout: 30.0
+    retry_attempts: 3
+  anthropic:
+    model: "claude-3-sonnet-20240229"
+    max_tokens: 4000
+    temperature: 0.7
+    timeout: 30.0
+    retry_attempts: 3
+
+processing:
+  chunk_size: 1000
+  chunk_overlap: 200
+  min_chunk_size: 100
+  max_workers: 4
+  batch_size: 10
+  max_concurrent: 5
+  enable_parallel: true
+
+quality:
+  threshold: 0.75
+  enable_filtering: true
+  min_examples: 10
+
+logging:
+  level: "INFO"
+  file: "logs/production.log"
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+  structured: true
+
+storage:
+  output_dir: "output"
+  temp_dir: "temp"
+  default_format: "jsonl"
+  enable_compression: false
+
+security:
+  max_file_size_mb: 100
+  allowed_domains: []
+  blocked_domains: []
+
+rate_limiting:
+  requests_per_minute: 60
+  requests_per_hour: 3600
