@@ -219,7 +219,11 @@ class TaskManager:
             )
 
             # Filter out None results
-            valid_results = [(r, tt) for r, tt in results if r is not None]
+            valid_results = []
+            for item in results:
+                if item is not None and item[0] is not None:
+                    valid_results.append(item)
+
 
             
             self.logger.info(
