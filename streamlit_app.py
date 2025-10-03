@@ -82,17 +82,23 @@ def initialize_bot():
         with st.spinner("Initializing bot..."):
             bot = TrainingDataBot()
             
-            # Configure AI client
+            # Configure AI client - Streamlit Cloud uses st.secrets
             try:
-                openai_key = st.secrets.get("TDB_OPENAI_API_KEY")
-            except:
+                # Streamlit Cloud secrets
+                openai_key = st.secrets["TDB_OPENAI_API_KEY"]
+            except (KeyError, FileNotFoundError):
+                # Fallback to environment variable
                 openai_key = os.getenv("TDB_OPENAI_API_KEY")
+
             if openai_key:
                 bot.set_ai_client(
                     provider="openai",
                     api_key=openai_key,
                     model="gpt-3.5-turbo"
                 )
+            else:
+                st.error("⚠️ OpenAI API key not configured. Please add TDB_OPENAI_API_KEY to Streamlit secrets.")
+
             
             st.session_state.bot = bot
     
