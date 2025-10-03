@@ -83,7 +83,10 @@ def initialize_bot():
             bot = TrainingDataBot()
             
             # Configure AI client
-            openai_key = os.getenv("TDB_OPENAI_API_KEY")
+            try:
+                openai_key = st.secrets.get("TDB_OPENAI_API_KEY")
+            except:
+                openai_key = os.getenv("TDB_OPENAI_API_KEY")
             if openai_key:
                 bot.set_ai_client(
                     provider="openai",
