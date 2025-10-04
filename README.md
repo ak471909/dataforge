@@ -1,6 +1,6 @@
 # Training Data Bot
 
-Enterprise-grade training data curation bot for LLM fine-tuning.
+A lightweight, Docker-deployable system for automatic training data curation. It ingests multi-format documents, generates QA/classification/summaries using LLMs, applies quality filters, and exports ML-ready datasets in seconds. Inspired by real-world data bottlenecks in LLM fine-tuning
 
 ## Features
 
